@@ -88,18 +88,18 @@ export default function Catalog() {
       <CategoryChips selected={category} onSelect={setCategory} />
 
       {/* listado de productos */}
-      <div className="grid grid-cols-[repeat(auto-fill,minmax(175px,1fr))] gap-5 mt-4">
-        {filtered.map((p) => (
-          <ProductCard
-            key={p.id}
-            product={p}
-            isAdmin={!!user}
-            onEdit={setEditing}
-            onDelete={del}
-            formatPrice={formatPrice}
-          />
-        ))}
-      </div>
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 mt-4">
+  {filtered.map((p) => (
+    <ProductCard
+      key={p.id}
+      product={p}
+      isAdmin={!!user}
+      onEdit={setEditing}
+      onDelete={del}
+      formatPrice={formatPrice}
+    />
+  ))}
+</div>
 
       {/* botón flotante agregar */}
       {user && (

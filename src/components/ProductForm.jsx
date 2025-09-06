@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Save, X } from "lucide-react";
-import { supabase } from "../supabaseClient"; // asegúrate de que este archivo exista en src/
+import { Save, X, Upload } from "lucide-react";
+import { supabase } from "../supabaseClient";
 
 const categories = [
   { id: "aguardientes", name: "Aguardientes" },
@@ -8,6 +8,9 @@ const categories = [
   { id: "whisky", name: "Whisky" },
   { id: "cervezas", name: "Cervezas" },
   { id: "vinos", name: "Vinos" },
+  { id: "tequilas", name: "Tequilas" },
+  { id: "cocteleria", name: "Coctelería" },
+  { id: "bebidas-alimentos", name: "Bebidas y Alimentos" },
 ];
 
 export default function ProductForm({ product, onSave, onCancel }) {
@@ -18,6 +21,7 @@ export default function ProductForm({ product, onSave, onCancel }) {
 
   const submit = async (e) => {
     e.preventDefault();
+    if (!f.name || !f.price) return; // validación mínima
     onSave(f);
   };
 
@@ -27,18 +31,15 @@ export default function ProductForm({ product, onSave, onCancel }) {
 
     setUploading(true);
     try {
-      // limpiar nombre del archivo
       const cleanName = file.name.replace(/[^a-zA-Z0-9.\-_]/g, "_");
       const fileName = `${Date.now()}_${cleanName}`;
 
-      // subir a bucket "licores"
       const { error: uploadError } = await supabase.storage
         .from("licores")
         .upload(fileName, file);
 
       if (uploadError) throw uploadError;
 
-      // obtener URL pública
       const { data, error: urlError } = supabase.storage
         .from("licores")
         .getPublicUrl(fileName);
@@ -47,30 +48,35 @@ export default function ProductForm({ product, onSave, onCancel }) {
 
       if (data?.publicUrl) {
         setF({ ...f, image: data.publicUrl });
-      } else {
-        console.error("❌ No se pudo generar la URL pública");
       }
     } catch (err) {
-      console.error("Error subiendo imagen a Supabase:", err);
+      console.error("Error subiendo imagen:", err);
     }
     setUploading(false);
   };
 
   return (
     <div className="fixed inset-0 bg-black/60 flex items-center justify-center p-4 z-50">
-      <div className="bg-white dark:bg-slate-900 dark:text-white rounded-xl p-6 w-full max-w-md shadow-xl">
-        <div className="flex justify-between mb-4 items-center">
-          <h3 className="font-bold text-lg">{product ? "Editar" : "Nuevo"} Producto</h3>
-          <button onClick={onCancel} className="text-gray-500 hover:text-red-600">
+      <div className="bg-white dark:bg-slate-900 dark:text-white rounded-xl p-6 w-full max-w-md shadow-2xl">
+        {/* Header modal */}
+        <div className="flex justify-between mb-4 items-center border-b pb-2 dark:border-slate-700">
+          <h3 className="font-bold text-lg">
+            {product ? "Editar Producto" : "Nuevo Producto"}
+          </h3>
+          <button
+            onClick={onCancel}
+            className="text-gray-500 hover:text-red-600 transition"
+          >
             <X />
           </button>
         </div>
 
-        <form onSubmit={submit} className="space-y-3">
+        {/* Form */}
+        <form onSubmit={submit} className="space-y-4">
           {/* Nombre */}
           <input
-            className="w-full border p-2 rounded dark:bg-slate-800 dark:border-slate-700"
-            placeholder="Nombre"
+            className="w-full border p-2 rounded-lg dark:bg-slate-800 dark:border-slate-700 focus:ring-2 focus:ring-blue-500 outline-none"
+            placeholder="Nombre del producto"
             value={f.name}
             onChange={(e) => setF({ ...f, name: e.target.value })}
             required
@@ -78,7 +84,7 @@ export default function ProductForm({ product, onSave, onCancel }) {
 
           {/* Categoría */}
           <select
-            className="w-full border p-2 rounded dark:bg-slate-800 dark:border-slate-700"
+            className="w-full border p-2 rounded-lg dark:bg-slate-800 dark:border-slate-700 focus:ring-2 focus:ring-blue-500 outline-none"
             value={f.category}
             onChange={(e) => setF({ ...f, category: e.target.value })}
           >
@@ -93,8 +99,8 @@ export default function ProductForm({ product, onSave, onCancel }) {
           <input
             type="number"
             min="0"
-            className="w-full border p-2 rounded dark:bg-slate-800 dark:border-slate-700"
-            placeholder="Precio"
+            className="w-full border p-2 rounded-lg dark:bg-slate-800 dark:border-slate-700 focus:ring-2 focus:ring-blue-500 outline-none"
+            placeholder="Precio (COP)"
             value={f.price}
             onChange={(e) => setF({ ...f, price: parseInt(e.target.value) || 0 })}
             required
@@ -102,35 +108,41 @@ export default function ProductForm({ product, onSave, onCancel }) {
 
           {/* Descripción */}
           <textarea
-            className="w-full border p-2 rounded dark:bg-slate-800 dark:border-slate-700"
-            placeholder="Descripción"
+            className="w-full border p-2 rounded-lg dark:bg-slate-800 dark:border-slate-700 focus:ring-2 focus:ring-blue-500 outline-none"
+            placeholder="Descripción (opcional)"
             value={f.description}
             onChange={(e) => setF({ ...f, description: e.target.value })}
           />
 
           {/* Imagen */}
-          <input type="file" accept="image/*" onChange={handleImageUpload} />
-          {uploading && <p className="text-sm text-blue-500">Subiendo imagen...</p>}
+          <label className="flex flex-col items-center justify-center border-2 border-dashed rounded-lg p-4 cursor-pointer dark:border-slate-700 hover:border-blue-400 transition">
+            <Upload className="w-6 h-6 mb-1 text-gray-500 dark:text-gray-300" />
+            <span className="text-sm text-gray-600 dark:text-gray-400">
+              {uploading ? "Subiendo..." : "Subir imagen"}
+            </span>
+            <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
+          </label>
+
           {f.image && (
             <img
               src={f.image}
               alt="preview"
-              className="mt-2 w-24 h-24 object-cover rounded"
+              className="mt-2 w-full h-40 object-cover rounded-lg shadow-md"
             />
           )}
 
           {/* Botones */}
-          <div className="flex gap-2 pt-2">
+          <div className="flex gap-2 pt-3">
             <button
               type="submit"
-              className="flex-1 bg-blue-600 text-white px-3 py-2 rounded flex items-center justify-center gap-1 hover:bg-blue-700"
+              className="flex-1 bg-blue-600 text-white px-3 py-2 rounded-lg flex items-center justify-center gap-1 hover:bg-blue-700 transition"
             >
               <Save className="w-4 h-4" /> Guardar
             </button>
             <button
               type="button"
               onClick={onCancel}
-              className="flex-1 bg-gray-400 px-3 py-2 rounded hover:bg-gray-500"
+              className="flex-1 bg-gray-400 px-3 py-2 rounded-lg hover:bg-gray-500 transition"
             >
               Cancelar
             </button>

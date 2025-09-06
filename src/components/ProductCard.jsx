@@ -6,18 +6,18 @@ export default function ProductCard({ product, isAdmin, onEdit, onDelete, format
 
   return (
     <>
-      <div className="w-88 rounded-lg overflow-hidden bg-white text-black dark:bg-slate-800 dark:text-white shadow-md hover:shadow-lg transition border border-gray-200 dark:border-slate-700">
+      <div className="w-44 sm:w-52 bg-white dark:bg-slate-800 rounded-xl shadow hover:shadow-lg transition border border-gray-200 dark:border-slate-700 flex flex-col items-center p-4 cursor-pointer">
         
         {/* Imagen */}
         <div
-          className="relative bg-white dark:bg-slate-700 flex items-center justify-center h-35 cursor-pointer"
+          className="relative w-full h-40 flex items-center justify-center mb-3"
           onClick={() => product.image && setZoom(true)}
         >
           {product.image ? (
             <img
               src={product.image}
               alt={product.name}
-              className="max-h-full object-contain p-2 transition-transform duration-300 hover:scale-105"
+              className="max-h-full object-contain"
             />
           ) : (
             <span className="text-gray-400 text-xs">Sin imagen</span>
@@ -36,38 +36,40 @@ export default function ProductCard({ product, isAdmin, onEdit, onDelete, format
           )}
         </div>
 
-        {/* Contenido */}
-        <div className="p-3 flex flex-col gap-1">
-          <h3 className="font-semibold text-sm truncate">{product.name}</h3>
-          <p className="text-xs text-gray-600 dark:text-gray-300 line-clamp-2">
-            {product.description || "Sin descripción"}
-          </p>
+        {/* Precio */}
+        <span className="text-base font-bold text-green-600 dark:text-green-400">
+          {formatPrice(product.price)}
+        </span>
 
-          {/* Precio */}
-          <div className="mt-1">
-            <span className="text-green-600 dark:text-green-400 font-bold text-base">
-              {formatPrice(product.price)}
-            </span>
+        {/* Nombre */}
+        <p className="text-sm text-gray-700 dark:text-gray-300 text-center mt-1 line-clamp-2">
+          {product.name}
+        </p>
+
+        {/* Badge de presentación */}
+        {product.presentation && (
+          <span className="mt-2 px-3 py-1 border rounded-lg text-xs text-gray-600 dark:text-gray-300">
+            {product.presentation}
+          </span>
+        )}
+
+        {/* Botones admin */}
+        {isAdmin && (
+          <div className="flex gap-1 mt-3">
+            <button
+              onClick={() => onEdit(product)}
+              className="flex items-center gap-1 px-2 py-1 text-[10px] rounded-md bg-blue-600 text-white hover:bg-blue-700"
+            >
+              <Edit3 className="w-3 h-3" /> Editar
+            </button>
+            <button
+              onClick={() => onDelete(product.id)}
+              className="flex items-center gap-1 px-2 py-1 text-[10px] rounded-md bg-red-600 text-white hover:bg-red-700"
+            >
+              <Trash2 className="w-3 h-3" /> Borrar
+            </button>
           </div>
-
-          {/* Botones admin */}
-          {isAdmin && (
-            <div className="flex gap-1 mt-2">
-              <button
-                onClick={() => onEdit(product)}
-                className="flex items-center gap-1 px-2 py-1 text-[10px] rounded-md bg-blue-600 text-white hover:bg-blue-700"
-              >
-                <Edit3 className="w-3 h-3" /> Editar
-              </button>
-              <button
-                onClick={() => onDelete(product.id)}
-                className="flex items-center gap-1 px-2 py-1 text-[10px] rounded-md bg-red-600 text-white hover:bg-red-700"
-              >
-                <Trash2 className="w-3 h-3" /> Borrar
-              </button>
-            </div>
-          )}
-        </div>
+        )}
       </div>
 
       {/* Modal de zoom */}

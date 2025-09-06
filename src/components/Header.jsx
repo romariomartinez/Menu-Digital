@@ -9,25 +9,27 @@ export default function Header() {
   const { dark, setDark } = useTheme();
 
   return (
-    <header className="bg-gradient-to-r from-slate-900/80 to-slate-800/70 backdrop-blur-md border-b border-white/10 sticky top-0 z-40 shadow-lg">
-      <div className="max-w-6xl mx-auto w-full px-4 py-3 flex items-center justify-between">
-        
+    <header className="sticky top-0 z-40 shadow-md transition-colors border-b border-gray-200 dark:border-gray-700">
+      <div
+        className={`max-w-6xl mx-auto w-full px-4 py-3 flex items-center justify-between
+        bg-gradient-to-r 
+        from-gray-100 to-gray-200 
+        dark:from-gray-800 dark:to-gray-900`}
+      >
         {/* Logo + nombre */}
         <div className="flex items-center gap-3">
-          <div className="w-12 h-12 rounded-full p-[2px] bg-gradient-to-tr from-yellow-400 to-orange-500 shadow-md shadow-yellow-500/30 flex-shrink-0">
-            <div className="w-full h-full rounded-full overflow-hidden bg-white">
-              <img
-                src={logo}
-                alt="Licores La Sierra"
-                className="w-full h-full object-cover"
-              />
-            </div>
+          <div className="w-12 h-12 rounded-full overflow-hidden bg-white shadow-md flex-shrink-0">
+            <img
+              src={logo}
+              alt="Licores La Sierra"
+              className="w-full h-full object-cover"
+            />
           </div>
           <div className="flex flex-col justify-center leading-tight">
-            <h1 className="text-lg sm:text-xl font-extrabold text-white tracking-wide">
+            <h1 className="text-lg sm:text-xl font-extrabold text-gray-900 dark:text-white tracking-wide">
               LA SIERRA LICORES
             </h1>
-            <p className="text-blue-300 text-xs sm:text-sm italic">
+            <p className="text-sm italic text-gray-600 dark:text-gray-300">
               Tu licorería de confianza
             </p>
           </div>
@@ -38,7 +40,9 @@ export default function Header() {
           {/* Toggle claro/oscuro */}
           <button
             onClick={() => setDark(!dark)}
-            className="p-2 rounded-lg bg-white/10 hover:bg-white/20 text-white transition-colors duration-300"
+            className="p-2 rounded-lg bg-gray-200 hover:bg-gray-300 text-gray-800 
+                       dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-200 
+                       transition-colors duration-300"
           >
             {dark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
           </button>
