@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Save, X } from "lucide-react";
-import { supabase } from "../supabaseClient"; // 👈 asegúrate de que este archivo esté en src/
+import { supabase } from "../supabaseClient"; // asegúrate de que este archivo exista en src/
 
 const categories = [
   { id: "aguardientes", name: "Aguardientes" },
@@ -32,16 +32,18 @@ export default function ProductForm({ product, onSave, onCancel }) {
       const fileName = `${Date.now()}_${cleanName}`;
 
       // subir a bucket "licores"
-      const { error } = await supabase.storage
+      const { error: uploadError } = await supabase.storage
         .from("licores")
         .upload(fileName, file);
 
-      if (error) throw error;
+      if (uploadError) throw uploadError;
 
       // obtener URL pública
-      const { data } = supabase.storage
+      const { data, error: urlError } = supabase.storage
         .from("licores")
         .getPublicUrl(fileName);
+
+      if (urlError) throw urlError;
 
       if (data?.publicUrl) {
         setF({ ...f, image: data.publicUrl });
@@ -49,7 +51,7 @@ export default function ProductForm({ product, onSave, onCancel }) {
         console.error("❌ No se pudo generar la URL pública");
       }
     } catch (err) {
-      console.error("Error subiendo imagen a Supabase:", err.message);
+      console.error("Error subiendo imagen a Supabase:", err);
     }
     setUploading(false);
   };
@@ -90,6 +92,7 @@ export default function ProductForm({ product, onSave, onCancel }) {
           {/* Precio */}
           <input
             type="number"
+            min="0"
             className="w-full border p-2 rounded dark:bg-slate-800 dark:border-slate-700"
             placeholder="Precio"
             value={f.price}
