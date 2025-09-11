@@ -6,7 +6,7 @@ export default function ProductCard({ product, isAdmin, onEdit, onDelete, format
 
   return (
     <>
-      <div className="w-44 sm:w-52 bg-white dark:bg-slate-800 rounded-xl shadow hover:shadow-lg transition border border-gray-200 dark:border-slate-700 flex flex-col items-center p-4 cursor-pointer">
+      <div className="w-full bg-white dark:bg-slate-800 rounded-xl shadow hover:shadow-lg transition border border-gray-200 dark:border-slate-700 flex flex-col p-4 cursor-pointer">
         
         {/* Imagen */}
         <div
