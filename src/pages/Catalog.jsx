@@ -21,7 +21,7 @@ export default function Catalog() {
   const [showAdd, setShowAdd] = useState(false);
   const [category, setCategory] = useState("todos");
 
-  // 🔄 cargar productos desde Firestore al montar
+  // cargar productos desde Firestore al montar
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -34,7 +34,7 @@ export default function Catalog() {
     fetchData();
   }, []);
 
-  // 🔎 filtrar por categoría
+  //  filtrar por categoría
   const filtered = useMemo(
     () =>
       products.filter(
@@ -43,7 +43,7 @@ export default function Catalog() {
     [products, category]
   );
 
-  // 💰 formato de precio
+  // formato de precio
   const formatPrice = (p) =>
     new Intl.NumberFormat("es-CO", {
       style: "currency",
@@ -51,7 +51,7 @@ export default function Catalog() {
       minimumFractionDigits: 0,
     }).format(p);
 
-  // 💾 guardar producto (nuevo o edición)
+  // guardar producto (nuevo o edición)
   const save = async (data) => {
     try {
       if (editing) {
@@ -72,7 +72,7 @@ export default function Catalog() {
     }
   };
 
-  // 🗑️ borrar producto
+  // borrar producto
   const del = async (id) => {
     try {
       await deleteProduct(id);
@@ -89,17 +89,17 @@ export default function Catalog() {
 
       {/* listado de productos */}
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 mt-4">
-  {filtered.map((p) => (
-    <ProductCard
-      key={p.id}
-      product={p}
-      isAdmin={!!user}
-      onEdit={setEditing}
-      onDelete={del}
-      formatPrice={formatPrice}
-    />
-  ))}
-</div>
+        {filtered.map((p) => (
+          <ProductCard
+            key={p.id}
+            product={p}
+            isAdmin={!!user}
+            onEdit={setEditing}
+            onDelete={del}
+            formatPrice={formatPrice}
+          />
+        ))}
+      </div>
 
       {/* botón flotante agregar */}
       {user && (

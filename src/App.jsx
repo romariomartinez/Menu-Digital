@@ -8,8 +8,9 @@ import Footer from "./components/Footer";
 import Catalog from "./pages/Catalog";
 import Login from "./pages/Login";
 import PrivateRoute from "./components/PrivateRoute";
+import Splash from "./pages/Splash"; 
 
-// 👉 página 404 muy simple
+
 function NotFound() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center text-center">
@@ -40,8 +41,18 @@ export default function App() {
     <AuthProvider>
       <ThemeProvider>
         <Routes>
-          {/* Público */}
-          <Route path="/" element={<Layout><Catalog /></Layout>} />
+          {/* Splash con video */}
+          <Route path="/" element={<Splash />} />
+
+          {/* Catálogo público */}
+          <Route
+            path="/catalog"
+            element={
+              <Layout>
+                <Catalog />
+              </Layout>
+            }
+          />
 
           {/* Login */}
           <Route path="/login" element={<Login />} />
@@ -51,7 +62,9 @@ export default function App() {
             path="/admin"
             element={
               <PrivateRoute>
-                <Layout><Catalog /></Layout>
+                <Layout>
+                  <Catalog />
+                </Layout>
               </PrivateRoute>
             }
           />

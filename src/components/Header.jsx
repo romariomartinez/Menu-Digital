@@ -11,7 +11,7 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-40 shadow-md transition-colors border-b border-gray-200 dark:border-gray-700">
       <div
-        className={`max-w-6xl mx-auto w-full px-4 py-3 flex items-center justify-between
+        className={`w-full mx-auto w-full px-4 py-3 flex items-center justify-between
         bg-gradient-to-r 
         from-gray-100 to-gray-200 
         dark:from-gray-800 dark:to-gray-900`}
@@ -26,9 +26,11 @@ export default function Header() {
             />
           </div>
           <div className="flex flex-col justify-center leading-tight">
-            <h1 className="text-lg sm:text-xl font-extrabold text-gray-900 dark:text-white tracking-wide">
-              LA SIERRA LICORES
-            </h1>
+   <h1 className="text-lg sm:text-xl font-light uppercase text-gray-900 dark:text-white tracking-widest">
+  Licores La Sierra
+</h1>
+
+
             <p className="text-sm italic text-gray-600 dark:text-gray-300">
               Tu licorería de confianza
             </p>

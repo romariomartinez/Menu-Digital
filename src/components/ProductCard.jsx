@@ -36,22 +36,26 @@ export default function ProductCard({ product, isAdmin, onEdit, onDelete, format
           )}
         </div>
 
-        {/* Precio */}
-        <span className="text-base font-bold text-green-600 dark:text-green-400">
-          {formatPrice(product.price)}
-        </span>
+       <div className="w-full text-left">
+        
+  {/* Precio */}
+  <span className="text-base font-bold text-green-600 dark:text-green-400 block">
+    {formatPrice(product.price)}
+  </span>
 
-        {/* Nombre */}
-        <p className="text-sm text-gray-700 dark:text-gray-300 text-center mt-1 line-clamp-2">
-          {product.name}
-        </p>
+  {/* Nombre */}
+  <p className="text-sm text-gray-700 dark:text-gray-300 line-clamp-2 mt-1">
+    {product.name}
+  </p>
 
-        {/* Badge de presentación */}
-        {product.presentation && (
-          <span className="mt-2 px-3 py-1 border rounded-lg text-xs text-gray-600 dark:text-gray-300">
-            {product.presentation}
-          </span>
-        )}
+  {/* Presentación */}
+  {product.presentation && (
+    <span className="inline-block mt-1 px-3 py-1 border rounded-lg text-xs text-gray-600 dark:text-gray-300">
+      {product.presentation}
+    </span>
+  )}
+
+</div>
 
         {/* Botones admin */}
         {isAdmin && (
@@ -89,7 +93,15 @@ export default function ProductCard({ product, isAdmin, onEdit, onDelete, format
             />
             <div className="bg-white dark:bg-slate-800 mt-3 p-4 rounded-lg shadow">
               <h2 className="text-lg font-bold">{product.name}</h2>
-              <p className="text-sm text-gray-600 dark:text-gray-300 mb-2">
+
+              {/* Presentación en el modal */}
+              {product.presentation && (
+                <span className="inline-block mt-1 px-3 py-1 border rounded-lg text-xs text-gray-600 dark:text-gray-300">
+                  {product.presentation}
+                </span>
+              )}
+
+              <p className="text-sm text-gray-600 dark:text-gray-300 mt-2 mb-2">
                 {product.description || "Sin descripción"}
               </p>
               <span className="text-green-600 dark:text-green-400 font-bold text-xl">

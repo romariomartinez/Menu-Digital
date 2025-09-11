@@ -9,7 +9,8 @@ const categories = [
   { id: "vinos", name: "Vinos" },
   { id: "tequilas", name: "Tequilas" },
   { id: "cocteleria", name: "Coctelería" },
-  { id: "bebidas-alimentos", name: "Bebidas y Alimentos" },
+  { id: "picadas", name: "Picadas" },
+  { id: "ofertas", name: "Ofertas" },
 ];
 
 export default function CategoryChips({ selected, onSelect }) {
@@ -18,7 +19,7 @@ export default function CategoryChips({ selected, onSelect }) {
       <ul
         className="
           flex items-center justify-start sm:justify-center
-          gap-4 sm:gap-6
+          gap-3 sm:gap-5
           px-2 sm:px-6
           py-2
           overflow-x-auto scrollbar-hide
@@ -31,11 +32,11 @@ export default function CategoryChips({ selected, onSelect }) {
             <button
               onClick={() => onSelect(c.id)}
               className={`
-                uppercase transition-colors
+                uppercase px-4 py-1.5 rounded-full transition-all duration-200
                 ${
                   selected === c.id
-                    ? "text-blue-600 dark:text-yellow-400 font-semibold border-b-2 border-current pb-0.5"
-                    : "text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-yellow-400"
+                    ? "bg-[#CCFF66] text-black font-bold shadow-md scale-105"
+  : "text-gray-700 dark:text-gray-300 hover:text-[#CCFF66] dark:hover:text-[#CCFF66]"
                 }
               `}
             >

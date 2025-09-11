@@ -1,3 +1,4 @@
+// src/components/ProductForm.jsx
 import React, { useState } from "react";
 import { Save, X, Upload } from "lucide-react";
 import { supabase } from "../supabaseClient";
@@ -10,18 +11,29 @@ const categories = [
   { id: "vinos", name: "Vinos" },
   { id: "tequilas", name: "Tequilas" },
   { id: "cocteleria", name: "Coctelería" },
-  { id: "bebidas-alimentos", name: "Bebidas y Alimentos" },
+  { id: "picadas", name: "Picadas" },
 ];
 
 export default function ProductForm({ product, onSave, onCancel }) {
   const [f, setF] = useState(
-    product || { name: "", category: "aguardientes", price: 0, description: "", image: "" }
+    product || {
+      name: "",
+      category: "aguardientes",
+      price: "",
+      presentation: "",
+      description: "",
+      image: "",
+    }
   );
+
   const [uploading, setUploading] = useState(false);
 
   const submit = async (e) => {
     e.preventDefault();
-    if (!f.name || !f.price) return; // validación mínima
+    if (!f.name || !f.price || !f.presentation) {
+      alert("⚠️ Todos los campos obligatorios deben estar completos");
+      return;
+    }
     onSave(f);
   };
 
@@ -50,14 +62,16 @@ export default function ProductForm({ product, onSave, onCancel }) {
         setF({ ...f, image: data.publicUrl });
       }
     } catch (err) {
-      console.error("Error subiendo imagen:", err);
+      console.error("❌ Error subiendo imagen:", err);
+    } finally {
+      setUploading(false);
     }
-    setUploading(false);
   };
 
   return (
     <div className="fixed inset-0 bg-black/60 flex items-center justify-center p-4 z-50">
       <div className="bg-white dark:bg-slate-900 dark:text-white rounded-xl p-6 w-full max-w-md shadow-2xl">
+        
         {/* Header modal */}
         <div className="flex justify-between mb-4 items-center border-b pb-2 dark:border-slate-700">
           <h3 className="font-bold text-lg">
@@ -73,6 +87,7 @@ export default function ProductForm({ product, onSave, onCancel }) {
 
         {/* Form */}
         <form onSubmit={submit} className="space-y-4">
+          
           {/* Nombre */}
           <input
             className="w-full border p-2 rounded-lg dark:bg-slate-800 dark:border-slate-700 focus:ring-2 focus:ring-blue-500 outline-none"
@@ -102,7 +117,16 @@ export default function ProductForm({ product, onSave, onCancel }) {
             className="w-full border p-2 rounded-lg dark:bg-slate-800 dark:border-slate-700 focus:ring-2 focus:ring-blue-500 outline-none"
             placeholder="Precio (COP)"
             value={f.price}
-            onChange={(e) => setF({ ...f, price: parseInt(e.target.value) || 0 })}
+            onChange={(e) => setF({ ...f, price: parseInt(e.target.value) || "" })}
+            required
+          />
+
+          {/* Presentación */}
+          <input
+            className="w-full border p-2 rounded-lg dark:bg-slate-800 dark:border-slate-700 focus:ring-2 focus:ring-blue-500 outline-none"
+            placeholder="Presentación (ej: 375ml, 750ml, 1L)"
+            value={f.presentation}
+            onChange={(e) => setF({ ...f, presentation: e.target.value })}
             required
           />
 
@@ -120,7 +144,12 @@ export default function ProductForm({ product, onSave, onCancel }) {
             <span className="text-sm text-gray-600 dark:text-gray-400">
               {uploading ? "Subiendo..." : "Subir imagen"}
             </span>
-            <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleImageUpload}
+              className="hidden"
+            />
           </label>
 
           {f.image && (
