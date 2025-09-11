@@ -29,7 +29,7 @@ export default function Footer() {
             <span>Lun - Dom: 8:00am - 11:00pm</span>
           </div>
            <p className="text-xs text-gray-500 dark:text-gray-400">
-    © 2025 - Todos los derechos reservados
+    © 2020 - Todos los derechos reservados
   </p>
         </div>
 

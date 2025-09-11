@@ -90,7 +90,8 @@ export default function ProductForm({ product, onSave, onCancel }) {
           
           {/* Nombre */}
           <input
-            className="w-full border p-2 rounded-lg dark:bg-slate-800 dark:border-slate-700 focus:ring-2 focus:ring-blue-500 outline-none"
+            className="w-full border-2 border-lime-300 p-2 rounded-lg bg-white text-black placeholder-gray-500 
+                       focus:ring-2 focus:ring-lime-300 focus:outline-none"
             placeholder="Nombre del producto"
             value={f.name}
             onChange={(e) => setF({ ...f, name: e.target.value })}
@@ -99,7 +100,8 @@ export default function ProductForm({ product, onSave, onCancel }) {
 
           {/* Categoría */}
           <select
-            className="w-full border p-2 rounded-lg dark:bg-slate-800 dark:border-slate-700 focus:ring-2 focus:ring-blue-500 outline-none"
+            className="w-full border-2 border-lime-300 p-2 rounded-lg bg-white text-black 
+                       focus:ring-2 focus:ring-lime-300 focus:outline-none"
             value={f.category}
             onChange={(e) => setF({ ...f, category: e.target.value })}
           >
@@ -114,7 +116,8 @@ export default function ProductForm({ product, onSave, onCancel }) {
           <input
             type="number"
             min="0"
-            className="w-full border p-2 rounded-lg dark:bg-slate-800 dark:border-slate-700 focus:ring-2 focus:ring-blue-500 outline-none"
+            className="w-full border-2 border-lime-300 p-2 rounded-lg bg-white text-black placeholder-gray-500 
+                       focus:ring-2 focus:ring-lime-300 focus:outline-none"
             placeholder="Precio (COP)"
             value={f.price}
             onChange={(e) => setF({ ...f, price: parseInt(e.target.value) || "" })}
@@ -123,7 +126,8 @@ export default function ProductForm({ product, onSave, onCancel }) {
 
           {/* Presentación */}
           <input
-            className="w-full border p-2 rounded-lg dark:bg-slate-800 dark:border-slate-700 focus:ring-2 focus:ring-blue-500 outline-none"
+            className="w-full border-2 border-lime-300 p-2 rounded-lg bg-white text-black placeholder-gray-500 
+                       focus:ring-2 focus:ring-lime-300 focus:outline-none"
             placeholder="Presentación (ej: 375ml, 750ml, 1L)"
             value={f.presentation}
             onChange={(e) => setF({ ...f, presentation: e.target.value })}
@@ -132,16 +136,17 @@ export default function ProductForm({ product, onSave, onCancel }) {
 
           {/* Descripción */}
           <textarea
-            className="w-full border p-2 rounded-lg dark:bg-slate-800 dark:border-slate-700 focus:ring-2 focus:ring-blue-500 outline-none"
+            className="w-full border-2 border-lime-300 p-2 rounded-lg bg-white text-black placeholder-gray-500 
+                       focus:ring-2 focus:ring-lime-300 focus:outline-none"
             placeholder="Descripción (opcional)"
             value={f.description}
             onChange={(e) => setF({ ...f, description: e.target.value })}
           />
 
           {/* Imagen */}
-          <label className="flex flex-col items-center justify-center border-2 border-dashed rounded-lg p-4 cursor-pointer dark:border-slate-700 hover:border-blue-400 transition">
-            <Upload className="w-6 h-6 mb-1 text-gray-500 dark:text-gray-300" />
-            <span className="text-sm text-gray-600 dark:text-gray-400">
+          <label className="flex flex-col items-center justify-center border-2 border-dashed border-lime-300 rounded-lg p-4 cursor-pointer hover:border-lime-400 transition">
+            <Upload className="w-6 h-6 mb-1 text-gray-500" />
+            <span className="text-sm text-gray-600">
               {uploading ? "Subiendo..." : "Subir imagen"}
             </span>
             <input
@@ -164,14 +169,14 @@ export default function ProductForm({ product, onSave, onCancel }) {
           <div className="flex gap-2 pt-3">
             <button
               type="submit"
-              className="flex-1 bg-blue-600 text-white px-3 py-2 rounded-lg flex items-center justify-center gap-1 hover:bg-blue-700 transition"
+              className="flex-1 bg-lime-300 text-black font-semibold px-3 py-2 rounded-lg flex items-center justify-center gap-1 hover:bg-lime-400 transition"
             >
               <Save className="w-4 h-4" /> Guardar
             </button>
             <button
               type="button"
               onClick={onCancel}
-              className="flex-1 bg-gray-400 px-3 py-2 rounded-lg hover:bg-gray-500 transition"
+              className="flex-1 bg-gray-300 text-black px-3 py-2 rounded-lg hover:bg-gray-400 transition"
             >
               Cancelar
             </button>
